@@ -27,7 +27,7 @@ async def handle_audio(update: Update, context: CallbackContext) -> None:
         mp3_file_path = original_file_path
 
     with open("playlist.txt", 'a') as f:
-        f.write(mp3_file_path + "\n")
+        f.write(mp3_file_path + " NEW_SONG\n")
         
     print(f"✅ Nuevo audio cargado a la playlist, {mp3_file_path}")
     await update.message.reply_text("✅ Audio cargado a la playlist")

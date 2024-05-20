@@ -24,18 +24,39 @@ def play_with_fade_out(file_path, fade_out_duration=3000):
     play_obj = wave_obj.play()
     play_obj.wait_done()
 
+def remove_new_song_tag(file_path):
+    # Remove the " NEW_SONG" tag from the given file in the playlist
+    with open("playlist.txt", 'r') as f:
+        songs = [song.strip() for song in f.readlines()]
+
+    with open("playlist.txt", 'w') as f:
+        for song in songs:
+            if song == file_path + " NEW_SONG":
+                f.write(file_path + '\n')
+            else:
+                f.write(song + '\n')
 
 i = 0
 while True:
     with open("playlist.txt", 'r') as f:
         songs = [song.strip() for song in f.readlines()]
     print(songs)
+
     if len(songs) == 0:
         sleep(5)
     else:
-
-        file_path = songs[i % len(songs)]
-        # Play the song with fade out
-        play_with_fade_out(file_path)
-
-        i += 1
+        # Separate new songs and regular songs
+        new_songs = [song for song in songs if song.endswith(" NEW_SONG")]
+        regular_songs = [song for song in songs if not song.endswith(" NEW_SONG")]
+        
+        if new_songs:
+            # Play the first new song
+            file_path = new_songs[0].replace(" NEW_SONG", "")
+            play_with_fade_out(file_path)
+            # Remove the " NEW_SONG" tag from the file
+            remove_new_song_tag(file_path)
+        else:
+            # Play the next regular song
+            file_path = regular_songs[i % len(regular_songs)]
+            play_with_fade_out(file_path)
+            i += 1
