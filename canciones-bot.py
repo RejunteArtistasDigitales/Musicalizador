@@ -42,7 +42,7 @@ async def start(update: Update, context: CallbackContext) -> None:
 
 
 def main() -> None:
-    application = Application.builder().token("6719756200:AAHZOmXj5RS_vun8u93eoIUQtQti64j3bdE").build()
+    application = Application.builder().token("BOT_TOKEN_COMPLETAR").build()
 
     
     # Command handler for the /start command
